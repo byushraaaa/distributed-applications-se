@@ -1,0 +1,720 @@
+openapi: 3.0.0
+
+info:
+  title: Interior Design Planner API
+  version: 1.0.0
+  description: API for managing an Interior Design Planner System. The system allows users to register and authenticate through JWT authentication, create and manage interior design projects, organize rooms by different types and styles, and add furniture items with categories, materials, colors and prices. Users can browse projects and furniture items using filtering, sorting and pagination functionalities. The API supports full CRUD operations for rooms, design projects and furniture items, including detailed request and response models, validation rules for input data and secure access to protected resources. The system is designed to help users organize and plan interior design ideas for different rooms and budgets in a modern and structured way.
+
+servers:
+  - url: http://localhost:5000/api
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register user
+      description: Creates a new user account.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+
+      responses:
+        '201':
+          description: User registered successfully
+
+        '400':
+          description: Invalid input data
+
+  /auth/login:
+    post:
+      summary: Login user
+      description: Authenticates user and returns JWT token.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+        '401':
+          description: Invalid email or password
+
+  /rooms:
+    get:
+      summary: View rooms
+      description: Returns a list of rooms with filtering, sorting and pagination.
+
+      parameters:
+        - name: roomType
+          in: query
+          schema:
+            type: string
+
+        - name: wallColor
+          in: query
+          schema:
+            type: string
+
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            example: name
+
+        - name: sortDirection
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+
+    post:
+      summary: Create room
+      description: Creates a new room.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomRequest'
+
+      responses:
+        '201':
+          description: Room created successfully
+
+        '400':
+          description: Invalid input data
+
+  /rooms/{id}:
+    get:
+      summary: View room details
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Room found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+
+        '404':
+          description: Room not found
+
+    put:
+      summary: Update room
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomRequest'
+
+      responses:
+        '200':
+          description: Room updated successfully
+
+        '400':
+          description: Invalid input data
+
+        '404':
+          description: Room not found
+
+    delete:
+      summary: Delete room
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: Room deleted successfully
+
+        '404':
+          description: Room not found
+
+  /design-projects:
+    get:
+      summary: View design projects
+      description: Returns a list of design projects with filtering and pagination.
+
+      parameters:
+        - name: style
+          in: query
+          schema:
+            type: string
+
+        - name: roomType
+          in: query
+          schema:
+            type: string
+
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DesignProject'
+
+    post:
+      summary: Create design project
+      description: Creates a new design project.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDesignProjectRequest'
+
+      responses:
+        '201':
+          description: Design project created successfully
+
+        '400':
+          description: Invalid input data
+
+  /design-projects/{id}:
+    get:
+      summary: View design project details
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Design project found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesignProject'
+
+        '404':
+          description: Design project not found
+
+    put:
+      summary: Update design project
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDesignProjectRequest'
+
+      responses:
+        '200':
+          description: Design project updated successfully
+
+        '400':
+          description: Invalid input data
+
+        '404':
+          description: Design project not found
+
+    delete:
+      summary: Delete design project
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: Design project deleted successfully
+
+        '404':
+          description: Design project not found
+
+  /furniture-items:
+    get:
+      summary: View furniture items
+      description: Returns a list of furniture items with filtering and pagination.
+
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+
+        - name: color
+          in: query
+          schema:
+            type: string
+
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 1
+
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FurnitureItem'
+
+    post:
+      summary: Create furniture item
+      description: Creates a new furniture item.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFurnitureItemRequest'
+
+      responses:
+        '201':
+          description: Furniture item created successfully
+
+        '400':
+          description: Invalid input data
+
+  /furniture-items/{id}:
+    get:
+      summary: View furniture item details
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Furniture item found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FurnitureItem'
+
+        '404':
+          description: Furniture item not found
+
+    put:
+      summary: Update furniture item
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFurnitureItemRequest'
+
+      responses:
+        '200':
+          description: Furniture item updated successfully
+
+        '400':
+          description: Invalid input data
+
+        '404':
+          description: Furniture item not found
+
+    delete:
+      summary: Delete furniture item
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: Furniture item deleted successfully
+
+        '404':
+          description: Furniture item not found
+
+components:
+  schemas:
+    Room:
+      type: object
+
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        name:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        roomType:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        size:
+          type: number
+          format: double
+          example: 25.5
+
+        wallColor:
+          type: string
+          maxLength: 30
+          example: Beige
+
+        budget:
+          type: number
+          format: double
+          example: 1500
+
+      required:
+        - id
+        - name
+        - roomType
+        - size
+        - budget
+
+    CreateRoomRequest:
+      type: object
+
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        roomType:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        size:
+          type: number
+          format: double
+          minimum: 1
+          example: 25.5
+
+        wallColor:
+          type: string
+          maxLength: 30
+          example: Beige
+
+        budget:
+          type: number
+          format: double
+          minimum: 0
+          example: 1500
+
+      required:
+        - name
+        - roomType
+        - size
+        - budget
+
+    DesignProject:
+      type: object
+
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        title:
+          type: string
+          maxLength: 100
+          example: Modern Living Room
+
+        description:
+          type: string
+          maxLength: 500
+          example: Modern interior design project.
+
+        style:
+          type: string
+          maxLength: 50
+          example: Modern
+
+        roomType:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        budget:
+          type: number
+          format: double
+          example: 5000
+
+      required:
+        - id
+        - title
+        - style
+        - roomType
+
+    CreateDesignProjectRequest:
+      type: object
+
+      properties:
+        title:
+          type: string
+          maxLength: 100
+          example: Modern Living Room
+
+        description:
+          type: string
+          maxLength: 500
+          example: Modern interior design project.
+
+        style:
+          type: string
+          maxLength: 50
+          example: Modern
+
+        roomType:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        budget:
+          type: number
+          format: double
+          minimum: 0
+          example: 5000
+
+      required:
+        - title
+        - style
+        - roomType
+
+    FurnitureItem:
+      type: object
+
+      properties:
+        id:
+          type: integer
+          example: 1
+
+        name:
+          type: string
+          maxLength: 100
+          example: Sofa
+
+        category:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        color:
+          type: string
+          maxLength: 30
+          example: Gray
+
+        material:
+          type: string
+          maxLength: 50
+          example: Wood
+
+        price:
+          type: number
+          format: double
+          example: 1200
+
+      required:
+        - id
+        - name
+        - category
+        - price
+
+    CreateFurnitureItemRequest:
+      type: object
+
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          example: Sofa
+
+        category:
+          type: string
+          maxLength: 50
+          example: Living Room
+
+        color:
+          type: string
+          maxLength: 30
+          example: Gray
+
+        material:
+          type: string
+          maxLength: 50
+          example: Wood
+
+        price:
+          type: number
+          format: double
+          minimum: 0
+          example: 1200
+
+      required:
+        - name
+        - category
+        - price
+
+    RegisterRequest:
+      type: object
+
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          example: busra123
+
+        email:
+          type: string
+          format: email
+          example: busra@gmail.com
+
+        password:
+          type: string
+          minLength: 6
+          example: password123
+
+      required:
+        - username
+        - email
+        - password
+
+    LoginRequest:
+      type: object
+
+      properties:
+        email:
+          type: string
+          format: email
+          example: busra@gmail.com
+
+        password:
+          type: string
+          minLength: 6
+          example: password123
+
+      required:
+        - email
+        - password
+
+    AuthResponse:
+      type: object
+
+      properties:
+        token:
+          type: string
+          example: jwt-token-example
+
+        expiration:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
