@@ -1,0 +1,75 @@
+﻿@model List<InteriorDesignPlanner.Client.Models.FurnitureItemViewModel>
+
+@{
+    ViewData["Title"] = "Furniture Items";
+}
+
+<h2>Furniture Items</h2>
+
+<a asp-controller="Rooms"
+   asp-action="Index"
+   class="btn btn-secondary mb-3">
+    Rooms
+</a>
+
+<a asp-controller="DesignProjects"
+   asp-action="Index"
+   class="btn btn-dark mb-3">
+    Design Projects
+</a>
+
+<a asp-action="Create"
+   class="btn btn-primary mb-3">
+    Create Furniture
+</a>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Material</th>
+            <th>Color</th>
+            <th>Available</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Price</td>
+                <td>@item.Material</td>
+                <td>@item.Color</td>
+                <td>@item.IsAvailable</td>
+                <td>@item.CreatedAt</td>
+
+                <td>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

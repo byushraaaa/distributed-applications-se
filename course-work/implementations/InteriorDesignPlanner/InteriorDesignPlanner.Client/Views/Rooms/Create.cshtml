@@ -1,0 +1,41 @@
+﻿@model InteriorDesignPlanner.Client.Models.RoomViewModel
+
+@{
+    ViewData["Title"] = "Create Room";
+}
+
+<h2>Create Room</h2>
+
+<form asp-action="Create">
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Type</label>
+        <input asp-for="Type" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Size</label>
+        <input asp-for="Size" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Style</label>
+        <input asp-for="Style" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Budget</label>
+        <input asp-for="Budget" class="form-control" />
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Create
+    </button>
+
+</form>

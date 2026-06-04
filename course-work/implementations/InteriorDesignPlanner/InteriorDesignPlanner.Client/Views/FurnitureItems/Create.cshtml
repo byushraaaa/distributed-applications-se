@@ -1,0 +1,50 @@
+﻿@model InteriorDesignPlanner.Client.Models.FurnitureItemViewModel
+
+@{
+    ViewData["Title"] = "Create Furniture";
+}
+
+<h2>Create Furniture</h2>
+
+<form asp-action="Create">
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Category</label>
+        <input asp-for="Category" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Price</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Material</label>
+        <input asp-for="Material" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Color</label>
+        <input asp-for="Color" class="form-control" />
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsAvailable"
+               class="form-check-input" />
+
+        <label class="form-check-label">
+            Available
+        </label>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Create
+    </button>
+
+</form>

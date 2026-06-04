@@ -1,0 +1,42 @@
+﻿@model InteriorDesignPlanner.Client.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post">
+
+    <div class="mb-3">
+        <label>Username</label>
+
+        <input asp-for="Username" class="form-control" />
+
+        <span asp-validation-for="Username"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Password</label>
+
+        <input asp-for="Password"
+               type="password"
+               class="form-control" />
+
+        <span asp-validation-for="Password"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Register
+    </button>
+
+</form>
+
+<br />
+
+<a asp-action="Login">
+    Login
+</a>

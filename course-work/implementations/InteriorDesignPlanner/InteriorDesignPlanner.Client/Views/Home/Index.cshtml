@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    <img src="~/images/interior.jpg"
+         class="img-fluid rounded shadow mb-5"
+         style="max-height:450px; width:100%; object-fit:cover;" />
+
+    <h1 class="display-4 mb-4">
+        Interior Design Planner
+    </h1>
+
+    <p class="lead mb-5">
+        Professional Interior Design Management System
+    </p>
+
+</div>
+
+<hr />
+
+<div class="row mt-5">
+
+    <div class="col-md-4">
+        <div class="card shadow-lg border-0 mb-4">
+            <div class="card-body text-center p-4">
+
+                <h3 class="card-title mb-3">
+                    Rooms
+                </h3>
+
+                <p class="card-text">
+                    Manage room styles, sizes and budgets.
+                </p>
+
+                <a asp-controller="Rooms"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Open Rooms
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-lg border-0 mb-4">
+            <div class="card-body text-center p-4">
+
+                <h3 class="card-title mb-3">
+                    Design Projects
+                </h3>
+
+                <p class="card-text">
+                    Create and manage interior design projects.
+                </p>
+
+                <a asp-controller="DesignProjects"
+                   asp-action="Index"
+                   class="btn btn-dark">
+                    Open Projects
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-lg border-0 mb-4">
+            <div class="card-body text-center p-4">
+
+                <h3 class="card-title mb-3">
+                    Furniture Items
+                </h3>
+
+                <p class="card-text">
+                    Manage furniture catalog and availability.
+                </p>
+
+                <a asp-controller="FurnitureItems"
+                   asp-action="Index"
+                   class="btn btn-success">
+                    Open Furniture
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>

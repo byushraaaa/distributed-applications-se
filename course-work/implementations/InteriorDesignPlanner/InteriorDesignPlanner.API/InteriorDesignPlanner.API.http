@@ -1,0 +1,6 @@
+@InteriorDesignPlanner.API_HostAddress = http://localhost:5139
+
+GET {{InteriorDesignPlanner.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
